@@ -105,6 +105,7 @@ open class HTTPClient: NetworkClient {
 		delegate?.httpClient(self, willPerformRequestWithMethod: method, url: url, payload: payload)
 		
 		let request = buildRequest(method, url: url, payload: payload)
+		delegate?.httpClient(self, willPerform: request)
 		
 		Spine.logInfo(.networking, "\(method): \(url)")
 		
@@ -141,6 +142,7 @@ open class HTTPClient: NetworkClient {
 			}
 			
 			self.delegate?.httpClient(self, didPerformRequestWithMethod: method, url: url, success: success)
+			self.delegate?.httpClient(self, didPerform: request, response: response, data: data, error: networkError)
 			callback(response?.statusCode, data, networkError as NSError?)
 		}) 
 		
@@ -169,4 +171,20 @@ public protocol HTTPClientDelegate {
 	- parameter success: Whether the reques was successful. Network and error responses are consided unsuccessful.
 	*/
 	func httpClient(_ client: HTTPClient, didPerformRequestWithMethod method: String, url: URL, success: Bool)
+
+	func httpClient(_ client: HTTPClient, willPerform request: URLRequest)
+
+	func httpClient(_ client: HTTPClient, didPerform request: URLRequest, response: URLResponse?, data: Data?, error: Error?)
+}
+
+extension HTTPClientDelegate {
+
+	public func httpClient(_ client: HTTPClient, willPerformRequestWithMethod method: String, url: URL, payload: Data?) {}
+
+	public func httpClient(_ client: HTTPClient, didPerformRequestWithMethod method: String, url: URL, success: Bool) {}
+
+	public func httpClient(_ client: HTTPClient, willPerform request: URLRequest) {}
+
+	public func httpClient(_ client: HTTPClient, didPerform request: URLRequest, response: URLResponse?, data: Data?, error: Error?) {}
+
 }

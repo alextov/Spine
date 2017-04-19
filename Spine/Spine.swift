@@ -370,7 +370,6 @@ open class Spine {
 		return promise.future
 	}
 
-
 	/// Deletes the given resource.
 	///
 	/// - parameter resource: The resource to delete.

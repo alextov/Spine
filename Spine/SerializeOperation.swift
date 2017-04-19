@@ -50,7 +50,7 @@ class SerializeOperation: Operation {
 	// MARK: Serializing
 	
 	fileprivate func serializeResource(_ resource: Resource) -> [String: Any] {
-		Spine.logDebug(.serializing, "Serializing resource \(resource) of type '\(resource.resourceType)' with id '\(resource.id)'")
+		Spine.logDebug(.serializing, "Serializing resource \(resource) of type '\(resource.resourceType)' with id '\(resource.id as Any)'")
 		
 		var serializedData: [String: Any] = [:]
 		
